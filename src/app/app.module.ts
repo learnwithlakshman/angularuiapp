@@ -8,6 +8,8 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { CbookComponent } from './cbook/cbook.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { CaseconvertorDirective } from './caseconvertor.directive';
+import {QuestionComponent} from './home/question.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { QuizComponent } from './quiz/quiz.component';
     HeaderComponent,
     HomeComponent,
     CbookComponent,
-    QuizComponent
+    QuizComponent,
+    CaseconvertorDirective,
+    QuestionComponent
   ],
   imports: [
     BrowserModule,

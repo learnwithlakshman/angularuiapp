@@ -17,22 +17,20 @@
         <button (click)="toggleBlub()" class="btn btn-primary">On/Off</button>
         <hr>
         <p><strong>Two-way Binding</strong></p>
-       
+
         <input type="text" class="form-control" [(ngModel)]="username">
         <p>Username :{{username}}</p>
-
-
     </div>
     <div class="col">
         <p><strong>Angular Basics - Directives</strong></p>
         <div *ngIf="servers.length > 0;then showservers else noservers">
         </div>
-      
+
         <ng-template #showservers>
             <table class="table">
                 <tr>
                     <th>#</th>
-                    <th>IP Address</th>   
+                    <th>IP Address</th>
                     <th>Status</th>
                     <th>Delete</th>
                 </tr>
@@ -40,29 +38,117 @@
                     <td>{{count+1}}</td>
                     <td>{{server.ip}}</td>
                     <td>
-                        <button
-                         class="btn mr-1" 
-                         [class.btn-danger]="!server.status" 
-                         [class.btn-success]="server.status"
-                         (click)="changeStatus(server)"
-                         >{{server.status ? "ON":"OFF"}}</button>
+                        <button class="btn btn-sm mr-1" 
+                        [ngClass]="{
+                              'btn-danger':!server.status,
+                              'btn-success':server.status
+                         }"
+                      
+                         (click)="changeStatus(server)">{{server.status ? "ON":"OFF"}}</button>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-info" (click)="removeServer(server)">Delete</button>
+                        <button 
+                        class="btn btn-sm btn-info" 
+                        (click)="removeServer(server)"
+                        [disabled] = "server.status"
+                        >Delete</button>
                     </td>
                 </tr>
             </table>
-              
+
         </ng-template>
-        
+
         <ng-template #noservers>
-           <p><strong>There are no server to show...</strong></p>
+            <p><strong>There are no server to show...</strong></p>
         </ng-template>
-        
-        
+
+        <p>
+            <strong>Directives : ngSwitch</strong>
+        </p>
+        <strong class="mr-2">Select view type:</strong>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="viewtype" [value]="'table'" [(ngModel)]="viewType">
+            <label class="form-check-label" for="table view">Table</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="viewtype" [value]="'card'" [(ngModel)]="viewType">
+            <label class="form-check-label" for="table view">Card</label>
+        </div>
+        <div [ngSwitch]="viewType">
+
+            <div *ngSwitchCase="'table'">
+                <table class="table">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Dob</th>
+                        <th>Price</th>
+                    </tr>
+                    <tr *ngFor="let emp of employees;index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{emp.name}}</td>
+                        <td>{{emp.dob | date:'yyyy-MM-dd'}}</td>
+                        <td>{{emp.salary | currency:'INR'}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div *ngSwitchCase="'card'">
+                <div class="card"  *ngFor="let emp of employees;index as i">
+                     <div class="card-body">
+                      <h5 class="card-title">#{{i+1}}. {{emp.name}}</h5>
+                      <p class="card-text">
+                          DOB   : {{emp.dob | date:'yyyy-MM-dd'}}<br>
+                          Price : {{emp.salary | currency:'INR'}}
+                      </p>
+                    </div>
+                  </div>
+            </div>
+            <div *ngSwitchDefault>
+                <p>Default view....</p>
+            </div>
+
+        </div>
+        <hr>
+        <p><strong>Event -Filter</strong></p>
+        <input type="text" class="form-control" [(ngModel)]="searchStr" placeholder="Enter the player name" (keyup)="search()">
+        <hr>
+        <div *ngIf="searchResPlayers.length > 0 && searchStr.trim().length > 0">
+            <table class="table">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Price</th>
+                </tr>
+                <tr *ngFor="let player of searchResPlayers;index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{player.name}}</td>
+                    <td>{{player.role | uppercase}}</td>
+                    <td>{{player.price | currency:'INR'}}</td>
+                </tr>
+            </table>
+
+        </div>
+        <div *ngIf="searchResPlayers.length == 0 && searchStr.trim().length > 0">
+            <p>There no players with the given search name :{{searchStr}}</p>
+        </div>
 
     </div>
     <div class="col">
+        <p [appCaseconvertor]="''"><strong>Custom Directives</strong></p>
 
+        <input type="text" 
+                [(ngModel)]="name" 
+                placeholder="Enter the name" 
+                class="form-control" 
+                (keyup.enter)="showName()"
+                [appCaseconvertor]="'upper'"
+           >
+        <hr>
+        <div *ngFor="let q of questions">
+            <app-question [question]="q"></app-question>
+        </div>
     </div>
+
+
 </div>
