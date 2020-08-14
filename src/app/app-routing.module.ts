@@ -19,6 +19,10 @@ const routes: Routes = [
       path:'quiz',
       component: QuizComponent
     }
+    ,{
+      path:'ipl',
+      loadChildren: ()=>import("./ipl/ipl.module").then(m=>m.IplModule)
+    }
 
 ];
 

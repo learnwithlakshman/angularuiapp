@@ -11,7 +11,8 @@ import { CbookComponent } from './cbook/cbook.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { CaseconvertorDirective } from './caseconvertor.directive';
 import {QuestionComponent} from './home/question.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { Ng2GoogleChartsModule} from 'ng2-google-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,9 @@ import {QuestionComponent} from './home/question.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    Ng2GoogleChartsModule
   ],
   providers: [QuizData],
   bootstrap: [AppComponent]
